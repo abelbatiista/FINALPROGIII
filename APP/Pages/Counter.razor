@@ -1,0 +1,94 @@
+﻿@page "/counter"
+@inject IVehicleService VehicleService
+<h1>pa proba la bd</h1>
+
+
+<h1>vehicles</h1>
+<p>all books</p>
+@Message
+<div></div>
+
+@if (vehicles == null)
+{
+    <p><em>loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Deuda</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vehicle in vehicles)
+            {
+            <tr>
+                @*<td>@vehicle.Brand</td>
+        <td>@vehicle.Model</td>
+        <td>@vehicle.Year</td>
+        <td>@vehicle.PassengersNumber</td>
+        <td>@vehicle.Price</td>*@
+
+                @*<td>@vehicle.Brand</td>
+                <td>@vehicle.Model</td>
+                <td>@vehicle.Color</td>
+                <td>@vehicle.Price</td>*@
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@*<EditForm Model="@client">
+    <table class="table">
+        <tr>
+            <th>Nombre: </th>
+            <td><input class="form-control col-sm-4" type="text" @bind="client.Name"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <input type="submit" value="Save" @onclick="SaveClient" />
+                <input type="button"value="Cancel" />
+            </td>
+        </tr>
+    </table>
+</EditForm>*@
+
+@code {
+    //private Client client = new Client();
+
+    //protected async Task SaveClient()
+    //{
+    //    client.BloodType = "";
+    //    client.Cedula = "";
+    //    client.CedulaImage = "";
+    //    client.DriverLicense = "";
+    //    client.DriverLicenseImage = "";
+    //    client.Email = "";
+    //    client.LastName = "";
+    //    client.Nacionality = "";
+    //    await ClientService.SaveClient(client);
+
+    //}
+
+    public IEnumerable<Vehicle> vehicles { get; set; }
+    public string Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vehicles = await VehicleService.GetClientDebt();
+        }
+        catch (Exception e)
+        {
+
+            Message = e.Message;
+        }
+    }
+
+}
