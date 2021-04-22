@@ -1,0 +1,63 @@
+﻿@page "/ShowBookings"
+@inject IBookingService BookingService
+<h3>Reservas</h3>
+<div>
+    <a href="/AddBooking"><i>Reservar</i></a>
+</div>
+
+@if (bookings == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID de Cliente</th>
+                <th>ID de Vehiculo</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+               
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in bookings)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.ClientId</td>
+                    <td>@booking.VehicleId</td>
+                    <td>@booking.StartDate</td>
+                    <td>@booking.EndDate</td>
+                    
+
+                    <td><a href="/EditBooking/@booking.BookingId"><i>Editar</i></a></td>
+                    <td><a href="/DeleteBooking/@booking.BookingId"><i>Eliminar</i></a></td>
+                    <td><a href="/DetailsBooking/@booking.BookingId"><i>Detalles</i></a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@code {
+    public IEnumerable<Booking> bookings { get; set; }
+    public string message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            bookings = await BookingService.GetAllBooking();
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+}

@@ -1,0 +1,62 @@
+﻿@page "/ShowInvoice"
+@inject IInvoiceService InvoiceService
+<h3>Facturas</h3>
+<div>
+    <a href="/AddBooking"><i>Reservar</i></a>
+</div>
+
+@if (invoices == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID de Reserva</th>
+                <th>Monto a Pagar</th>
+                <th>Monto Pagado</th>
+                
+
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in invoices)
+            {
+                <tr>
+                    <td>@invoice.InvoiceId</td>
+                    <td>@invoice.BookingId</td>
+                    <td>@invoice.Amount</td>
+                    <td>@invoice.AmountPaid</td>
+                    
+
+                    <td><a href="/EditInvoice/@invoice.InvoiceId"><i>Editar</i></a></td>
+                    <td><a href="/DeleteInvoice/@invoice.InvoiceId"><i>Eliminar</i></a></td>
+                    <td><a href="/DetailsInvoice/@invoice.InvoiceId"><i>Detalles</i></a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@code {
+    public IEnumerable<Invoice> invoices { get; set; }
+    public string message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            invoices = await InvoiceService.GetAllInvoice();
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+}

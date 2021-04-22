@@ -1,0 +1,75 @@
+﻿@page "/ShowClient"
+@inject IClientService ClientService
+<h3>Clientes</h3>
+@message
+
+<div>
+    <a href="/AddClient"><i>Agregar Cliente</i></a>
+</div>
+
+@if (clients == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Licencia de Conducir</th>
+                <th>Nacionalidad</th>
+                <th>Tipo De Sangre</th>
+                <th>Foto de Cedula</th>
+                <th>Foto de Licencia</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in clients)
+            {
+                <tr>
+                    <td>@client.ClientId</td>
+                    <td>@client.Cedula</td>
+                    <td>@client.Name</td>
+                    <td>@client.LastName</td>
+                    <td>@client.Email</td>
+                    <td>@client.DriverLicense</td>
+                    <td>@client.Nacionality</td>
+                    <td>@client.BloodType</td>
+                    <td>@client.CedulaImage</td>
+                    <td>@client.DriverLicenseImage</td>
+                    
+                    <td><a href="/AddClient/@client.ClientId"><i>Editar</i></a></td>
+                    <td><a href="/DeleteClient/@client.ClientId"><i>Eliminar</i></a></td>
+                    <td><a href="/DetailsClient/@client.ClientId"><i>Detalles</i></a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@code {
+    public IEnumerable<Client> clients { get; set; }
+
+    public string message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            clients = await ClientService.GetAllClient();
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+
+}

@@ -1,0 +1,36 @@
+﻿@page "/DetailsBooking/{id:int}"
+@inject IInvoiceService InvoiceService
+@inject IClientService ClientService
+@inject IBookingService BookingService
+<h3>Detalles de Reserva</h3>
+<div class="text-center" style="">
+    <div class="card" style="width: 18rem;margin:auto;">
+        <img class="card-img-top" src="@client.CedulaImage" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@client.Name @client.LastName</h5>
+
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID DE RESERVA: @booking.BookingId</li>
+            <li class="list-group-item">Fecha de Inicio: @booking.StartDate</li>
+            <li class="list-group-item">FECHA DE FIN: @booking.EndDate</li>
+
+
+        </ul>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Client client = new Client();
+    private Invoice invoice = new Invoice();
+    private Booking booking = new Booking();
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        booking = await BookingService.GetBookingDetails(id);
+        client = await ClientService.GetClientDetails(booking.ClientId);
+    }
+}

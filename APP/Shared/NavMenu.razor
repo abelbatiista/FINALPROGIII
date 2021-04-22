@@ -8,18 +8,23 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="/ShowVehicles" Match="NavLinkMatch.All">
+                <span class="oi oi-laptop" aria-hidden="true"></span> Modulo Vehiculos
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="/ShowClient">
+                <span class="oi oi-laptop" aria-hidden="true"></span> Modulo Clientes
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="/ShowBookings">
+                <span class="oi oi-laptop" aria-hidden="true"></span> Modulo Reservas
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/ShowInvoice" Match="NavLinkMatch.All">
+                <span class="oi oi-laptop" aria-hidden="true"></span> Modulo Facturas
             </NavLink>
         </li>
     </ul>

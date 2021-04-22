@@ -1,0 +1,78 @@
+﻿@page "/DeleteClient/{id:int}"
+@inject IClientService ClientService
+@inject NavigationManager NavigationManager
+<h3>Eliminar Cliente</h3>
+<p style="color:red; text-align:center">Seguro que quieres Eliminar Este Cliente?</p>
+<EditForm Model="@client">
+    <table class="table">
+
+        <tr>
+            <td>Cedula: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Cedula" /> </td>
+        </tr>
+        <tr>
+            <td>Nombre: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Name" /> </td>
+        </tr>
+        <tr>
+            <td>Apellido: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.LastName" /> </td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Email" /> </td>
+        </tr>
+        <tr>
+            <td>Licencia de Conducir: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.DriverLicense" /> </td>
+        </tr>
+        <tr>
+            <td>Nacionalidad: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Nacionality" /> </td>
+        </tr>
+        <tr>
+            <td>Tipo de Sangre: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.BloodType" /> </td>
+        </tr>
+        <tr>
+            <td>Foto de Cedula: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.CedulaImage" /> </td>
+        </tr>
+        <tr>
+            <td>Foto de Licencia: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.DriverLicenseImage" /> </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2" style="text-align:center">
+                
+                <button class="btn btn-danger btn-sm" @onclick="DELETECLIENT">Eliminar</button>
+                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
+            </td>
+
+        </tr>
+    </table>
+</EditForm>
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Client client = new Client();
+
+    protected override async Task OnInitializedAsync()
+    {
+        client = await ClientService.GetClientDetails(id);
+    }
+
+    protected async Task DELETECLIENT()
+    {
+        await ClientService.DeleteClient(id);
+        NavigationManager.NavigateTo("/ShowClient");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/ShowClient");
+    }
+}

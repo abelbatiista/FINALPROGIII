@@ -1,0 +1,54 @@
+﻿@page "/EditInvoice/{id:int}"
+@inject IInvoiceService InvoiceService
+@inject NavigationManager NavigationManager
+<h3>Editar Factura</h3>
+<EditForm Model="@invoice">
+    <table class="table">
+
+        
+        <tr>
+            <td>ID de Reserva: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.BookingId" /> </td>
+        </tr>
+        <tr>
+            <td>Monto: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.Amount"/> </td>
+        </tr>
+        <tr>
+            <td>Monto Pagado: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.AmountPaid"/> </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align:center">
+
+                <button class="btn btn-success btn-sm" @onclick="SAVECHANGES">Guardar Cambios</button>
+                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
+            </td>
+
+        </tr>
+    </table>
+</EditForm>
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Invoice invoice = new Invoice();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id != 0)
+        {
+            invoice = await InvoiceService.GetInvoiceDetails(id);
+        }
+    }
+    protected async Task SAVECHANGES()
+    {
+        await InvoiceService.SaveInvoice(invoice);
+        NavigationManager.NavigateTo("/ShowInvoice");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/ShowBooking");
+    }
+}

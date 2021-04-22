@@ -1,0 +1,109 @@
+﻿@page "/AddClient"
+@page "/AddClient/{id:int}"
+@inject IClientService ClientService
+@inject NavigationManager NavigationManager
+<h3>Agregar Cliente</h3>
+<EditForm Model="@client">
+    <table class="table">
+
+        <tr>
+            <td>Cedula: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Cedula" /> </td>
+        </tr>
+        <tr>
+            <td>Nombre: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Name" /> </td>
+        </tr>
+        <tr>
+            <td>Apellido: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.LastName" /> </td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Email" /> </td>
+        </tr>
+        <tr>
+            <td>Licencia de Conducir: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.DriverLicense" /> </td>
+        </tr>
+        <tr>
+            <td>Nacionalidad: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Nacionality" /> </td>
+        </tr>
+        <tr>
+            <td>Tipo de Sangre: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.BloodType" /> </td>
+        </tr>
+        <tr>
+            <td>Foto de Cedula: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.CedulaImage" /> </td>
+        </tr>
+        <tr>
+            <td>Foto de Licencia: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.DriverLicenseImage" /> </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2" style="text-align:center">
+                <button class="btn btn-primary btn-sm" @onclick="ValidarCedula">Validar Cedula</button>
+                <button class="btn btn-success btn-sm" @onclick="ADDCLIENT">Guardar Cambios</button>
+                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
+            </td>
+
+        </tr>
+    </table>
+</EditForm>
+@code {
+
+    [Parameter]
+    public int id { get; set; }
+    private Client client = new Client();
+    public string message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id != 0)
+        {
+            client = await ClientService.GetClientDetails(id);
+        }
+    }
+
+    protected void ValidarCedula()
+    {
+        try
+        {
+            WebClient webcli = new WebClient();
+            var api = "https://api.adamix.net/apec/cedula/" + client.Cedula;
+            var datos = webcli.DownloadString(api);
+
+            var resultados = JsonConvert.DeserializeObject<Root>(datos);
+
+            if (client.Cedula == resultados.Cedula)
+            {
+                client.Name = resultados.Nombres;
+                client.LastName = resultados.Apellido1 + " " + resultados.Apellido2;
+                client.CedulaImage = resultados.foto;
+                client.DriverLicenseImage = resultados.foto;
+                client.DriverLicense = resultados.Cedula;
+
+            }
+        }
+        catch(Exception e)
+        {
+            message = e.Message;
+        }
+    }
+
+    protected async Task ADDCLIENT()
+    {
+        await ClientService.SaveClient(client);
+        NavigationManager.NavigateTo("/ShowClient");
+    }
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/ShowClient");
+    }
+
+
+}

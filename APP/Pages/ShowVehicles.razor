@@ -1,0 +1,84 @@
+﻿@page "/ShowVehicles"
+
+@inject IVehicleService VehicleService
+
+<h3>Vehiculos</h3>
+@message
+
+<div>
+    <a href="/AddVehicle"><i>Agregar Vehiculo</i></a>
+</div>
+
+@if(vehicles == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Color</th>
+                <th>Precio x Dia</th>
+                <th>Tipo</th>
+                <th>Capacidad De Carga</th>
+                <th>Pasajeros</th>
+                <th>Matricula</th>
+                <th>No. Seguro</th>
+                <th>Foto</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var vehicle in vehicles)
+            {
+                <tr>
+                    <td>@vehicle.VehicleId</td>
+                    <td>@vehicle.Brand</td>
+                    <td>@vehicle.Model</td>
+                    <td>@vehicle.Year</td>
+                    <td>@vehicle.Color</td>
+                    <td>@vehicle.Price</td>
+                    <td>@vehicle.Kind</td>
+                    <td>@vehicle.ChargeCapacity</td>
+                    <td>@vehicle.PassengersNumber</td>
+                    <td>@vehicle.Enrollment</td>
+                    <td>@vehicle.SecureNumber</td>
+                    <td>@vehicle.Image</td>
+                    <td>@vehicle.Latitude</td>
+                    <td>@vehicle.Length</td>
+                    <td><a href="/AddVehicle/@vehicle.VehicleId"><i>Editar</i></a></td>
+                    <td><a href="/DeleteVehicle/@vehicle.VehicleId"><i>Eliminar</i></a></td>
+                    <td><a href="/DetailsVehicle/@vehicle.VehicleId"><i>Detalles</i></a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+@code {
+    public IEnumerable<Vehicle> vehicles { get; set; }
+    public string message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vehicles = await VehicleService.GetAllVehicle();
+        }
+        catch(Exception e)
+        {
+            message = e.Message;
+        }
+    }
+
+}

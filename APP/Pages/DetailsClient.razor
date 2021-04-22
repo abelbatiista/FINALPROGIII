@@ -1,0 +1,30 @@
+﻿@page "/DetailsClient/{id:int}"
+@inject IClientService ClientService
+<h3>Detalles de Cliente</h3>
+<div class="text-center" style="">
+    <div class="card" style="width: 18rem;margin:auto;">
+        <img class="card-img-top" src="@client.CedulaImage" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@client.Name @client.LastName</h5>
+
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@client.Cedula</li>
+            <li class="list-group-item">@client.Nacionality</li>
+            <li class="list-group-item">@client.Email</li>
+            <li class="list-group-item">@client.BloodType</li>
+
+        </ul>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Client client = new Client();
+
+    protected override async Task OnInitializedAsync()
+    {
+        client = await ClientService.GetClientDetails(id);
+    }
+}

@@ -1,0 +1,30 @@
+﻿@page "/DetailsVehicle/{id:int}"
+@inject IVehicleService VehicleService
+<h2>Detalles de Vehiculo</h2>
+
+<div class="text-center" style="">
+    <div class="card" style="width: 18rem;margin:auto;">
+        <img class="card-img-top" src="@vehicle.Image" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@vehicle.Brand @vehicle.Model</h5>
+
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@vehicle.Year</li>
+            <li class="list-group-item">@vehicle.Color</li>
+            
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Vehicle vehicle = new Vehicle();
+
+    protected override async Task OnInitializedAsync()
+    {
+        vehicle = await VehicleService.GetVehicleDetails(id);
+    }
+}

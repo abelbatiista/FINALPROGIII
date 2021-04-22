@@ -1,0 +1,57 @@
+﻿@page "/DeleteBooking/{id:int}"
+@inject IBookingService BookingService
+@inject NavigationManager NavigationManager
+<h3>Eliminar Reserva</h3>
+<p style="color:red; text-align:center">Seguro que quieres Eliminar Esta Reserva?</p>
+<EditForm Model="@booking">
+    <table class="table">
+
+        <tr>
+            <td>ID De Cliente: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@booking.ClientId" /> </td>
+        </tr>
+        <tr>
+            <td>ID de Vehiculo: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@booking.VehicleId" /> </td>
+        </tr>
+        <tr>
+            <td>Fecha de Inicio: </td>
+            <td><input type="date" class="form-control col-sm-4" @bind-value="@booking.StartDate" /> </td>
+        </tr>
+        <tr>
+            <td>Fecha de Fin: </td>
+            <td><input type="date" class="form-control col-sm-4" @bind-value="@booking.EndDate" /> </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align:center">
+
+                <button class="btn btn-danger btn-sm" @onclick="DELETEBOOKING">Eliminar</button>
+                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
+            </td>
+
+        </tr>
+    </table>
+</EditForm>
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private Booking booking = new Booking();
+
+    protected override async Task OnInitializedAsync()
+    {
+        booking = await BookingService.GetBookingDetails(id);
+    }
+
+    protected async Task DELETEBOOKING()
+    {
+        await BookingService.DeleteBooking(id);
+        NavigationManager.NavigateTo("/ShowBookings");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/ShowBookings");
+    }
+}

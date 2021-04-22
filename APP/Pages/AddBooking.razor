@@ -1,0 +1,104 @@
+﻿@page "/AddBooking"
+@inject IBookingService BookingService
+@inject IInvoiceService InvoiceService
+@inject IVehicleService VehicleService
+@inject NavigationManager NavigationManager
+<h3>AddBooking</h3>
+<EditForm Model="@booking">
+    <table class="table">
+
+        <tr>
+            <td>ID De Cliente: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@booking.ClientId" /> </td>
+        </tr>
+        <tr>
+            <td>ID de Vehiculo: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@booking.VehicleId" /> </td>
+        </tr>
+        <tr>
+            <td>Fecha de Inicio: </td>
+            <td><input type="date" class="form-control col-sm-4" @bind-value="@booking.StartDate" /> </td>
+        </tr>
+        <tr>
+            <td>Fecha de Fin: </td>
+            <td><input type="date" class="form-control col-sm-4" @bind-value="@booking.EndDate" /> </td>
+        </tr>
+        
+        <tr>
+            <td colspan="2" style="text-align:center">
+                
+                <button class="btn btn-success btn-sm" @onclick="GenerateInvoice">Generar Factura</button>
+                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
+            </td>
+
+        </tr>
+    </table>
+</EditForm>
+<hr /><hr />
+<h2>Factura</h2>
+<EditForm Model="@invoice">
+    <table class="table">
+
+        
+        <tr>
+            <td>ID de Reserva: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.BookingId"/> </td>
+        </tr>
+        <tr>
+            <td>Monto: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.Amount"/> </td>
+        </tr>
+        <tr>
+            <td>Monto Pagado: </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.AmountPaid"/> </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align:center">
+
+                <button class="btn btn-success btn-sm" @onclick="SAVECHANGES">Guardar Cambios</button>
+                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
+            </td>
+
+        </tr>
+    </table>
+</EditForm>
+@code {
+    private Booking booking = new Booking();
+    private Invoice invoice = new Invoice();
+    private Vehicle vehicle = new Vehicle();
+    public int days { get; set; }
+    public double amount { get; set; }
+    public int ID { get; set; }
+
+    protected async Task GenerateInvoice()
+    {
+
+        await BookingService.SaveBooking(booking);
+
+
+        DateTime startdate = booking.StartDate;
+        DateTime enddate = booking.EndDate;
+
+        TimeSpan tspan = enddate - startdate;
+        days = tspan.Days;
+        ID = booking.VehicleId;
+        vehicle = await VehicleService.GetVehicleDetails(ID);
+
+        invoice.BookingId = booking.BookingId;
+        invoice.Amount = vehicle.Price * days;
+
+        await BookingService.SaveBooking(booking);
+    }
+    protected async Task SAVECHANGES()
+    {
+
+
+        await InvoiceService.SaveInvoice(invoice);
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/ShowBooking");
+    }
+}
