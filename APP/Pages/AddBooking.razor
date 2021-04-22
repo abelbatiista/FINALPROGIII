@@ -1,7 +1,9 @@
 ﻿@page "/AddBooking"
+@page "/AddBooking/{id:int}"
 @inject IBookingService BookingService
 @inject IInvoiceService InvoiceService
 @inject IVehicleService VehicleService
+@inject IClientService ClientService
 @inject NavigationManager NavigationManager
 <h3>AddBooking</h3>
 <EditForm Model="@booking">
@@ -9,7 +11,7 @@
 
         <tr>
             <td>ID De Cliente: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@booking.ClientId" /> </td>
+            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.ClientId" /> </td>
         </tr>
         <tr>
             <td>ID de Vehiculo: </td>
@@ -64,13 +66,22 @@
     </table>
 </EditForm>
 @code {
+    [Parameter]
+    public int id { get; set; }
     private Booking booking = new Booking();
     private Invoice invoice = new Invoice();
     private Vehicle vehicle = new Vehicle();
+    private Client client = new Client();
     public int days { get; set; }
     public double amount { get; set; }
     public int ID { get; set; }
-
+    protected override async Task OnInitializedAsync()
+    {
+        if (id != 0)
+        {
+            client = await ClientService.GetClientDetails(id);
+        }
+    }
     protected async Task GenerateInvoice()
     {
 
