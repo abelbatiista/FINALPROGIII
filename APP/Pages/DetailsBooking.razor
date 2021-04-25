@@ -2,23 +2,36 @@
 @inject IInvoiceService InvoiceService
 @inject IClientService ClientService
 @inject IBookingService BookingService
+
+
+<style>
+    b {
+        font-size: 15px;
+    }
+
+    h4 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+    }
+</style>
+
 <h3>Detalles de Reserva</h3>
-<div class="text-center" style="">
-    <div class="card" style="width: 18rem;margin:auto;">
-        <img class="card-img-top" src="@client.CedulaImage" alt="Card image cap">
+
+<div class="card-deck shadow p-3 mb-5 bg-white rounded" style="width: 18rem; margin:auto;display: inline-block;">
+    <div class="card">
+        <img class="card-img-top" src="@client.CedulaImage" alt="Card image cap" width="100" height="175px">
         <div class="card-body">
-            <h5 class="card-title">@client.Name @client.LastName</h5>
-
+            <h4 class="card-title"><b>@client.Name @client.LastName</b></h4>
+            <h4 class="card-title"><b>ID De Reserva:&nbsp;</b>@booking.BookingId</h4>
+            <h4 class="card-title"><b>Fecha De Inicio:&nbsp;</b>@booking.StartDate</h4>
+            <h4 class="card-title"><b>Fecha De Entrega:&nbsp;</b>@booking.EndDate</h4>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID DE RESERVA: @booking.BookingId</li>
-            <li class="list-group-item">Fecha de Inicio: @booking.StartDate</li>
-            <li class="list-group-item">FECHA DE FIN: @booking.EndDate</li>
-
-
-        </ul>
+        @*<div class="card-footer">
+                <small class="text-muted">Some Extra Information</small>
+            </div>*@
     </div>
 </div>
+
 @code {
     [Parameter]
     public int id { get; set; }

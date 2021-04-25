@@ -1,7 +1,24 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    background-color: #DCD9D4;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);
+    background-blend-mode: soft-light,screen;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#mapid {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    position: absolute;
 }
 
 a, .btn-link {
@@ -47,27 +64,31 @@ app {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background: linear-gradient(to right, #dd1818, #333333); 
 }
 
     .sidebar .top-row {
         background-color: rgba(0,0,0,0.4);
+        font-family: 'Zen Dots', cursive;
     }
 
     .sidebar .navbar-brand {
-        font-size: 1.1rem;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: bold;
     }
 
-    .sidebar .oi {
+    .sidebar .fas {
         width: 2rem;
-        font-size: 1.1rem;
+        font-size: 1.7rem;
         vertical-align: text-top;
         top: -2px;
     }
 
     .sidebar .nav-item {
-        font-size: 0.9rem;
+        font-size: 1rem;
         padding-bottom: 0.5rem;
+        font-weight: 300;
     }
 
         .sidebar .nav-item:first-of-type {

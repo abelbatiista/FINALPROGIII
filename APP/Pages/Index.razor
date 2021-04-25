@@ -1,7 +1,111 @@
 ﻿@page "/"
+@inject IVehicleService VehicleService
+@inject NavigationManager NavigationManager
+@message
 
-<h1>Hello, world!</h1>
+<style>
+    h1 {
+        text-align: center;
+    }
 
-Welcome to your new app.
+    b {
+        font-size: 20px;
+    }
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    h4 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+    }
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+    .tamano{
+        font-size: 30px;
+    }
+</style>
+
+
+<div>
+    <a href="/AddVehicle" class="btn btn-danger btn-circle btn-circle-xl">
+        <i class="fas fa-plus-circle tamano"></i>
+    </a>
+</div>
+
+@if (vehicles == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    @foreach (var vehicle in vehicles)
+    {
+        <div class="card-deck shadow p-3 mb-4 bg-white rounded" style="width: 18rem; margin:auto;display: inline-block; position:relative;">
+            <div class="card">
+                <img class="card-img-top" src="@vehicle.Image" alt="Card image cap" width="100" height="175px">
+                <div class="card-body">
+                    <h4 class="card-title"><b>Marca:&nbsp;</b>@vehicle.Brand</h4>
+                    <h4 class="card-title"><b>Modelo:&nbsp;</b>@vehicle.Model</h4>
+                    <h4 class="card-title"><b>Año:&nbsp;</b>@vehicle.Year</h4>
+                    <h4 class="card-title"><b>Color:&nbsp;</b>@vehicle.Color</h4>
+                    <h4 class="card-title"><b>Tipo:&nbsp;</b>@vehicle.Kind</h4>
+                    <h4 class="card-title"><b>Pasajeros:&nbsp;</b>@vehicle.PassengersNumber</h4>
+                </div>
+                <div class="card-footer">
+                    <a href="/AddVehicle/@vehicle.VehicleId" class="btn btn-warning btn-circle btn-circle mr-5 ml-4">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="/DeleteVehicle/@vehicle.VehicleId" class="btn btn-danger btn-circle btn-circle">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    public IEnumerable<Vehicle> vehicles { get; set; }
+    public string message { get; set; }
+
+    private Vehicle veh = new Vehicle();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vehicles = await VehicleService.GetAllVehicle();
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+}
+
+

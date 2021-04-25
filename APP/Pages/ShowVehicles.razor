@@ -1,12 +1,50 @@
 ﻿@page "/ShowVehicles"
-
 @inject IVehicleService VehicleService
 
 <h3>Vehiculos</h3>
 @message
 
+<style>
+    th, td {
+        text-align: center;
+    }
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+    .tamano {
+        font-size: 30px;
+    }
+</style>
+
 <div>
-    <a href="/AddVehicle"><i>Agregar Vehiculo</i></a>
+    <a href="/AddVehicle" class="btn btn-danger btn-circle btn-circle-xl">
+        <i class="fas fa-plus-circle tamano"></i>
+    </a>
 </div>
 
 @if(vehicles == null)
@@ -15,26 +53,20 @@
 }
 else
 {
-    <table class="table-bordered">
-        <thead>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
             <tr>
                 <th>ID</th>
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Año</th>
                 <th>Color</th>
-                <th>Precio x Dia</th>
+                <th>Precio x Día</th>
                 <th>Tipo</th>
-                <th>Capacidad De Carga</th>
                 <th>Pasajeros</th>
-                <th>Matricula</th>
+                <th>Matrícula</th>
                 <th>No. Seguro</th>
-                <th>Foto</th>
-                <th>Latitud</th>
-                <th>Longitud</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -46,18 +78,17 @@ else
                     <td>@vehicle.Model</td>
                     <td>@vehicle.Year</td>
                     <td>@vehicle.Color</td>
-                    <td>@vehicle.Price</td>
+                    <td>$@vehicle.Price</td>
                     <td>@vehicle.Kind</td>
-                    <td>@vehicle.ChargeCapacity</td>
                     <td>@vehicle.PassengersNumber</td>
                     <td>@vehicle.Enrollment</td>
                     <td>@vehicle.SecureNumber</td>
-                    <td>@vehicle.Image</td>
-                    <td>@vehicle.Latitude</td>
-                    <td>@vehicle.Length</td>
-                    <td><a href="/AddVehicle/@vehicle.VehicleId"><i>Editar</i></a></td>
-                    <td><a href="/DeleteVehicle/@vehicle.VehicleId"><i>Eliminar</i></a></td>
-                    <td><a href="/DetailsVehicle/@vehicle.VehicleId"><i>Detalles</i></a></td>
+                    <td>
+                        <a href="/AddVehicle/@vehicle.VehicleId" class="btn btn-warning btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-edit"></i></a>
+                        <a href="/DeleteVehicle/@vehicle.VehicleId" class="btn btn-danger btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-trash"></i></a>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -1,34 +1,43 @@
 ﻿@page "/EditInvoice/{id:int}"
 @inject IInvoiceService InvoiceService
 @inject NavigationManager NavigationManager
-<h3>Editar Factura</h3>
+
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+
 <EditForm Model="@invoice">
-    <table class="table">
-
-        
-        <tr>
-            <td>ID de Reserva: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.BookingId" /> </td>
-        </tr>
-        <tr>
-            <td>Monto: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.Amount"/> </td>
-        </tr>
-        <tr>
-            <td>Monto Pagado: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.AmountPaid"/> </td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="text-align:center">
-
-                <button class="btn btn-success btn-sm" @onclick="SAVECHANGES">Guardar Cambios</button>
-                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
-            </td>
-
-        </tr>
-    </table>
+    <h2>Editar Reserva</h2>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">ID De Reserva</label>
+                <input type="text" class="form-control" @bind-value="@invoice.BookingId" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Monto A Pagar</label>
+                <input type="text" class="form-control" @bind-value="@invoice.Amount" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Monto Pagado</label>
+                <input type="text" class="form-control" @bind-value="@invoice.AmountPaid" />
+            </div>
+        </div>
+    </div>
+    <div colspan="2" style="text-align:center;">
+        <button class="btn btn-primary mb-4" @onclick="SAVECHANGES">Guardar</button>
+        <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
+    </div>
 </EditForm>
+
 @code {
     [Parameter]
     public int id { get; set; }
@@ -49,6 +58,6 @@
 
     protected void Cancel()
     {
-        NavigationManager.NavigateTo("/ShowBooking");
+        NavigationManager.NavigateTo("/ShowBookings");
     }
 }

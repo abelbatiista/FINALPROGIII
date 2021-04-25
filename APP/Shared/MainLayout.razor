@@ -1,15 +1,67 @@
 ﻿@inherits LayoutComponentBase
 
+<style>
+    .top-row{
+        background-color:green;
+    }
+    .arr {
+        font-family: 'Zen Dots', cursive;
+        color: red;
+        font-size: 45px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
+
 <div class="sidebar">
     <NavMenu />
 </div>
 
 <div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    <div class="arr">
+        ADS Rent-Car
     </div>
-
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@*<BlazorStrap.BSCarousel NumberOfItems="@items.Count">
+    <div class="carousel-inner">
+        @for (int i = 0; i < items.Count; i++)
+        {
+            <BlazorStrap.BSCarouselItem Src="@items[i].Source" Alt="@items[i].Alt" style="width:100%; height:500px"></BlazorStrap.BSCarouselItem>
+        }
+    </div>
+    <BlazorStrap.BSCarouselControl CarouselDirection="BlazorStrap.CarouselDirection.Previous" NumberOfItems="@items.Count"></BlazorStrap.BSCarouselControl>
+    <BlazorStrap.BSCarouselControl CarouselDirection="BlazorStrap.CarouselDirection.Next" NumberOfItems="@items.Count"></BlazorStrap.BSCarouselControl>
+</BlazorStrap.BSCarousel>
+
+@code{
+    IList<Item> items = new List<Item>
+    {
+        new Item
+        {
+            Source = "/images/imagen1.jpg",
+            Alt = "First Slide",
+            Caption = "Slide 1",
+            Header = "Slide 1 Header"
+        },
+        new Item
+        {
+            Source = "/images/imagen2.jpg",
+            Alt = "Second Slide",
+            Caption = "Slide 2",
+            Header = "Slide 2 Header"
+        }
+    };
+
+    class Item
+    {
+        public string Source { get; set; } = "";
+        public string Alt { get; set; } = "";
+        public string Caption { get; set; } = "";
+        public string Header { get; set; } = "";
+    }
+}*@

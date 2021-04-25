@@ -1,58 +1,76 @@
 ﻿@page "/DeleteClient/{id:int}"
 @inject IClientService ClientService
 @inject NavigationManager NavigationManager
-<h3>Eliminar Cliente</h3>
-<p style="color:red; text-align:center">Seguro que quieres Eliminar Este Cliente?</p>
-<EditForm Model="@client">
-    <table class="table">
+<style>
+    p {
+        font-size: 25px;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
 
-        <tr>
-            <td>Cedula: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Cedula" /> </td>
-        </tr>
-        <tr>
-            <td>Nombre: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Name" /> </td>
-        </tr>
-        <tr>
-            <td>Apellido: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.LastName" /> </td>
-        </tr>
-        <tr>
-            <td>Email: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Email" /> </td>
-        </tr>
-        <tr>
-            <td>Licencia de Conducir: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.DriverLicense" /> </td>
-        </tr>
-        <tr>
-            <td>Nacionalidad: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.Nacionality" /> </td>
-        </tr>
-        <tr>
-            <td>Tipo de Sangre: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.BloodType" /> </td>
-        </tr>
-        <tr>
-            <td>Foto de Cedula: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.CedulaImage" /> </td>
-        </tr>
-        <tr>
-            <td>Foto de Licencia: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.DriverLicenseImage" /> </td>
-        </tr>
+    label {
+        font-weight: bold;
+    }
+</style>
+<p style="color:red; text-align:center">¿Seguro que quieres eliminar este cliente?</p>
 
-
-        <tr>
-            <td colspan="2" style="text-align:center">
-                
-                <button class="btn btn-danger btn-sm" @onclick="DELETECLIENT">Eliminar</button>
-                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
-            </td>
-
-        </tr>
-    </table>
+<EditForm Model="client">
+    <fieldset disabled="disabled">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Cédula</label>
+                    <input type="text" class="form-control" @bind-value="@client.Cedula" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" @bind-value="@client.Name" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" class="form-control" @bind-value="@client.LastName" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" @bind-value="@client.Email" placeholder="someone@example.com" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Nacionalidad</label>
+                    <input type="text" class="form-control" @bind-value="@client.Nacionality" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Tipo De Sangre</label>
+                    <input type="text" class="form-control" @bind-value="@client.BloodType" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Imagen</label>
+                    <input type="text" class="form-control" @bind-value="@client.CedulaImage" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div colspan="2" style="text-align:center;">
+        <button class="btn btn-primary mb-4" @onclick="DELETECLIENT">Guardar</button>
+        <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
+    </div>
 </EditForm>
 @code {
     [Parameter]

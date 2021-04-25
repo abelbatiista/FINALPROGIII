@@ -5,66 +5,80 @@
 @inject IVehicleService VehicleService
 @inject IClientService ClientService
 @inject NavigationManager NavigationManager
-<h3>AddBooking</h3>
+
+<style>
+        label {
+            font-weight: bold;
+        }
+</style>
+
 <EditForm Model="@booking">
-    <table class="table">
-
-        <tr>
-            <td>ID De Cliente: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@client.ClientId" /> </td>
-        </tr>
-        <tr>
-            <td>ID de Vehiculo: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@booking.VehicleId" /> </td>
-        </tr>
-        <tr>
-            <td>Fecha de Inicio: </td>
-            <td><input type="date" class="form-control col-sm-4" @bind-value="@booking.StartDate" /> </td>
-        </tr>
-        <tr>
-            <td>Fecha de Fin: </td>
-            <td><input type="date" class="form-control col-sm-4" @bind-value="@booking.EndDate" /> </td>
-        </tr>
-        
-        <tr>
-            <td colspan="2" style="text-align:center">
-                
-                <button class="btn btn-success btn-sm" @onclick="GenerateInvoice">Generar Factura</button>
-                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
-            </td>
-
-        </tr>
-    </table>
+    <h2>Agregar Reserva</h2>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">ID Del Cliente</label>
+                <input type="text" class="form-control" @bind-value="@client.ClientId" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">ID Del Vehículo</label>
+                <input type="text" class="form-control" @bind-value="@booking.VehicleId" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Fecha De Inicio</label>
+                <input type="date" class="form-control" @bind-value="@booking.StartDate" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Fecha De Entrega</label>
+                <input type="date" class="form-control" @bind-value="@booking.EndDate" />
+            </div>
+        </div>
+    </div>
+    <div colspan="2" style="text-align:center;">
+        <button class="btn btn-primary mb-4" @onclick="GenerateInvoice">Guardar</button>
+        <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
+    </div>
 </EditForm>
-<hr /><hr />
-<h2>Factura</h2>
-<EditForm Model="@invoice">
-    <table class="table">
+<hr />
 
-        
-        <tr>
-            <td>ID de Reserva: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.BookingId"/> </td>
-        </tr>
-        <tr>
-            <td>Monto: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.Amount"/> </td>
-        </tr>
-        <tr>
-            <td>Monto Pagado: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.AmountPaid"/> </td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="text-align:center">
-
-                <button class="btn btn-success btn-sm" @onclick="SAVECHANGES">Guardar Cambios</button>
-                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
-            </td>
-
-        </tr>
-    </table>
+<EditForm Model="@booking">
+    <h2>Factura</h2>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">ID De Reserva</label>
+                <input type="text" class="form-control" @bind-value="@invoice.BookingId" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Monto A Pagar</label>
+                <input type="text" class="form-control" @bind-value="@invoice.Amount" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Monto Pagado</label>
+                <input type="text" class="form-control" @bind-value="@invoice.AmountPaid" />
+            </div>
+        </div>
+    </div>
+    <div colspan="2" style="text-align:center;">
+        <button class="btn btn-primary mb-4" @onclick="SAVECHANGES">Guardar</button>
+        <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
+    </div>
 </EditForm>
+
 @code {
     [Parameter]
     public int id { get; set; }
@@ -110,6 +124,6 @@
 
     protected void Cancel()
     {
-        NavigationManager.NavigateTo("/ShowBooking");
+        NavigationManager.NavigateTo("/ShowBookings");
     }
 }

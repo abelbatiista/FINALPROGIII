@@ -1,8 +1,64 @@
 ﻿@page "/ShowBookings"
 @inject IBookingService BookingService
 <h3>Reservas</h3>
+
+<style>
+    th, td {
+        text-align: center;
+    }
+    h1 {
+        text-align: center;
+    }
+
+    b {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+    }
+
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+
+    .tamano {
+        font-size: 30px;
+    }
+</style>
+
 <div>
-    <a href="/AddBooking"><i>Reservar</i></a>
+    <a href="/AddBooking" class="btn btn-danger btn-circle btn-circle-xl">
+        <i class="fas fa-plus-circle tamano"></i>
+    </a>
 </div>
 
 @if (bookings == null)
@@ -11,34 +67,35 @@
 }
 else
 {
-    <table class="table-bordered">
-        <thead>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
             <tr>
-                <th>ID</th>
                 <th>ID de Cliente</th>
-                <th>ID de Vehiculo</th>
+                <th>ID de Vehículo</th>
                 <th>Fecha de Inicio</th>
                 <th>Fecha de Fin</th>
-               
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var booking in bookings)
             {
                 <tr>
-                    <td>@booking.BookingId</td>
                     <td>@booking.ClientId</td>
                     <td>@booking.VehicleId</td>
                     <td>@booking.StartDate</td>
                     <td>@booking.EndDate</td>
-                    
-
-                    <td><a href="/EditBooking/@booking.BookingId"><i>Editar</i></a></td>
-                    <td><a href="/DeleteBooking/@booking.BookingId"><i>Eliminar</i></a></td>
-                    <td><a href="/DetailsBooking/@booking.BookingId"><i>Detalles</i></a></td>
+                    <td>
+                        <a href="/EditBooking/@booking.BookingId" class="btn btn-warning btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="/DeleteBooking/@booking.BookingId" class="btn btn-danger btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a href="/DetailsBooking/@booking.BookingId" class="btn btn-primary btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

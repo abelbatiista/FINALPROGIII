@@ -1,8 +1,57 @@
 ﻿@page "/ShowInvoice"
 @inject IInvoiceService InvoiceService
 <h3>Facturas</h3>
+
+<style>
+    th, td {
+        text-align: center;
+    }
+    h1 {
+        text-align: center;
+    }
+    b {
+        font-size: 20px;
+    }
+    h4 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+    }
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+    .tamano {
+        font-size: 30px;
+    }
+</style>
+
 <div>
-    <a href="/AddBooking"><i>Reservar</i></a>
+    <a href="/AddBooking" class="btn btn-danger btn-circle btn-circle-xl">
+        <i class="fas fa-plus-circle tamano"></i>
+    </a>
 </div>
 
 @if (invoices == null)
@@ -11,33 +60,33 @@
 }
 else
 {
-    <table class="table-bordered">
-        <thead>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
             <tr>
-                <th>ID</th>
                 <th>ID de Reserva</th>
                 <th>Monto a Pagar</th>
                 <th>Monto Pagado</th>
-                
-
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var invoice in invoices)
             {
                 <tr>
-                    <td>@invoice.InvoiceId</td>
                     <td>@invoice.BookingId</td>
-                    <td>@invoice.Amount</td>
-                    <td>@invoice.AmountPaid</td>
-                    
-
-                    <td><a href="/EditInvoice/@invoice.InvoiceId"><i>Editar</i></a></td>
-                    <td><a href="/DeleteInvoice/@invoice.InvoiceId"><i>Eliminar</i></a></td>
-                    <td><a href="/DetailsInvoice/@invoice.InvoiceId"><i>Detalles</i></a></td>
+                    <td>$@invoice.Amount</td>
+                    <td>$@invoice.AmountPaid</td>
+                    <td>
+                        <a href="/EditInvoice/@invoice.InvoiceId" class="btn btn-warning btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="/DeleteInvoice/@invoice.InvoiceId" class="btn btn-danger btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a href="/DetailsInvoice/@invoice.InvoiceId" class="btn btn-primary btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

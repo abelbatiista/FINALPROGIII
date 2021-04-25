@@ -3,8 +3,46 @@
 <h3>Clientes</h3>
 @message
 
+<style>
+    th, td{
+        text-align: center;
+    }
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+    .tamano {
+        font-size: 30px;
+    }
+</style>
+
 <div>
-    <a href="/AddClient"><i>Agregar Cliente</i></a>
+    <a href="/AddClient" class="btn btn-danger btn-circle btn-circle-xl">
+        <i class="fas fa-plus-circle tamano"></i>
+    </a>
 </div>
 
 @if (clients == null)
@@ -13,46 +51,39 @@
 }
 else
 {
-    <table class="table-bordered">
-        <thead>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
             <tr>
-                <th>ID</th>
-                <th>Cedula</th>
+                <th>Cédula</th>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Email</th>
-                <th>Licencia de Conducir</th>
                 <th>Nacionalidad</th>
                 <th>Tipo De Sangre</th>
-                <th>Foto de Cedula</th>
-                <th>Foto de Licencia</th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var client in clients)
             {
                 <tr>
-                    <td>@client.ClientId</td>
                     <td>@client.Cedula</td>
                     <td>@client.Name</td>
                     <td>@client.LastName</td>
                     <td>@client.Email</td>
-                    <td>@client.DriverLicense</td>
                     <td>@client.Nacionality</td>
                     <td>@client.BloodType</td>
-                    <td>@client.CedulaImage</td>
-                    <td>@client.DriverLicenseImage</td>
-                    
-                    <td><a href="/AddClient/@client.ClientId"><i>Editar</i></a></td>
-                    <td><a href="/DeleteClient/@client.ClientId"><i>Eliminar</i></a></td>
-                    <td><a href="/AddBooking/@client.ClientId"><i>Reservar</i></a></td>
+                    <td>
+                        <a href="/AddClient/@client.ClientId" class="btn btn-warning btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-edit"></i></a>
+                        <a href="/DeleteClient/@client.ClientId" class="btn btn-danger btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-trash"></i></a>
+                        <a href="/AddBooking/@client.ClientId" class="btn btn-primary btn-circle btn-circle-sm m-1">
+                            <i class="fas fa-bookmark"></i></a>
+                    </td>
                 </tr>
             }
         </tbody>
-
     </table>
 }
 @code {

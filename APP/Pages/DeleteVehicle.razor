@@ -1,74 +1,121 @@
 ﻿@page "/DeleteVehicle/{id:int}"
 @inject IVehicleService VehicleService
 @inject NavigationManager NavigationManager
-<h3>Eliminar Vehiculo</h3>
-<p style="color:red; text-align:center">Seguro que quieres Eliminar Este Vehiculo?</p>
+@inject IJSRuntime JS
+
+<style>
+    p{
+        font-size:25px;
+        font-weight:bold;
+        text-transform: capitalize;
+    }
+    label{
+        font-weight: bold;
+    }
+</style>
+<p style="color:red; text-align:center">¿Seguro que quieres eliminar este vehículo?</p>
+
 <EditForm Model="@vehicle">
-    <table class="table">
-
-        <tr>
-            <td>Marca: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Brand" /> </td>
-        </tr>
-        <tr>
-            <td>Modelo: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Model" /> </td>
-        </tr>
-        <tr>
-            <td>Año: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Year" /> </td>
-        </tr>
-        <tr>
-            <td>Color: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Color" /> </td>
-        </tr>
-        <tr>
-            <td>Precio x Dia: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Price" /> </td>
-        </tr>
-        <tr>
-            <td>Tipo: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Kind" /> </td>
-        </tr>
-        <tr>
-            <td>Capacidad De Carga: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.ChargeCapacity" /> </td>
-        </tr>
-        <tr>
-            <td>Pasajeros: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.PassengersNumber" /> </td>
-        </tr>
-        <tr>
-            <td>Matricula: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Enrollment" /> </td>
-        </tr>
-        <tr>
-            <td>No. Seguro: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.SecureNumber" /> </td>
-        </tr>
-        <tr>
-            <td>Foto: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Image" /> </td>
-        </tr>
-        <tr>
-            <td>Latitud: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Latitude" /> </td>
-        </tr>
-        <tr>
-            <td>Longitud: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@vehicle.Length" /> </td>
-        </tr>
-
-
-        <tr>
-            <td colspan="2" style="text-align:center">
-                <button class="btn btn-danger btn-sm" @onclick="DELETEVEHICLE">Eliminar</button>
-                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
-            </td>
-
-        </tr>
-    </table>
+    <fieldset disabled="disabled">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Marca</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Brand" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Modelo</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Model" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Año</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Year" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Color</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Color" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Precio x Día</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Price" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Tipo</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Kind" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Capacidad De Carga</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.ChargeCapacity" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Cantidad De Pasajeros</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.PassengersNumber" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Matrícula</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Enrollment" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Número De Seguro</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.SecureNumber" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Latitud</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Latitude" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Longitud</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Length" />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">Imagen</label>
+                    <input type="text" class="form-control" @bind-value="@vehicle.Image" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <div colspan="2" style="text-align:center;">
+        <button class="btn btn-primary mb-4" @onclick="DELETEVEHICLE">Guardar</button>
+        <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
+    </div>
 </EditForm>
+
 @code {
     [Parameter]
     public int id { get; set; }
@@ -88,6 +135,6 @@
 
     protected void Cancel()
     {
-        NavigationManager.NavigateTo("/ShowVehicles");
+        NavigationManager.NavigateTo("/");
     }
 }

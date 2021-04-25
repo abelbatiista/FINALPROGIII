@@ -1,0 +1,56 @@
+﻿@page "/Map"
+@using Newtonsoft.Json;
+@namespace APP
+
+@{
+    var db = new Models.ContextDB();
+    var json = JsonConvert.SerializeObject(db.Vehicles.ToList(), Formatting.Indented,
+    new JsonSerializerSettings()
+    {
+        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    });
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADS Rent-Car | Mapa</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="css\site.css">
+
+</head>
+<body>
+    <div id="mapid"> </div>
+
+    <script>
+        //PARA AGREGAR LA UBICACION INICIAL DEL MAPA
+        var mymap = L.map('mapid').setView([18.47186, -69.89232], 8);
+
+        //PARA AGREGAR EL MAPA
+        L.tileLayer('https://b.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoidXN1YXJpb3BhcmF0YXJlYSIsImEiOiJja21oNXl0bjIwMTQwMm5sZmVzMXVndjFlIn0.nfG_MJzF7nZznTEul_-XyQ'
+        }).addTo(mymap);
+
+        //PARA AGREGAR EL MARCADOR
+        var data = @Html.Raw(json);
+
+        for (let i of data) {
+            L.marker([i.Latitude, i.Length]).addTo(mymap)
+                .bindPopup('<strong>Marca: </strong>' + i.Brand +
+                '<br><strong>Modelo: </strong>' + i.Model +
+                '<br><strong>Año: </strong>' + i.Year +
+                '<br><strong>Color: </strong>' + i.Color +
+                '<br><strong>Tipo: </strong>' + i.Kind).openPopup();
+        }
+    </script>
+</body>
+</html>

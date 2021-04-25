@@ -1,54 +1,69 @@
 ﻿@page "/DeleteInvoice/{id:int}"
 @inject IInvoiceService InvoiceService
 @inject NavigationManager NavigationManager
-<h3>Eliminar Factura</h3>
-<p style="color:red; text-align:center">Seguro que quieres Eliminar Esta Factura?</p>
-<EditForm Model="@invoice">
-    <table class="table">
 
+    <style>
+        p {
+            font-size: 25px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
 
-        <tr>
-            <td>ID de Reserva: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.BookingId" /> </td>
-        </tr>
-        <tr>
-            <td>Monto: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.Amount" /> </td>
-        </tr>
-        <tr>
-            <td>Monto Pagado: </td>
-            <td><input type="text" class="form-control col-sm-4" @bind-value="@invoice.AmountPaid" /> </td>
-        </tr>
+        label {
+            font-weight: bold;
+        }
+    </style>
+    <p style="color:red; text-align:center">¿Seguro que quieres eliminar esta factura?</p>
 
-        <tr>
-            <td colspan="2" style="text-align:center">
+    <EditForm Model="@invoice">
+        <fieldset disabled="disabled">
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label">ID De Reserva</label>
+                        <input type="text" class="form-control" @bind-value="@invoice.BookingId" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label">Monto A Pagar</label>
+                        <input type="text" class="form-control" @bind-value="@invoice.Amount" />
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label">Monto Pagado</label>
+                        <input type="text" class="form-control" @bind-value="@invoice.AmountPaid" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div colspan="2" style="text-align:center;">
+            <button class="btn btn-primary mb-4" @onclick="DELETEINVOICE">Guardar</button>
+            <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
+        </div>
+    </EditForm>
+    @code {
+        [Parameter]
+        public int id { get; set; }
 
-                <button class="btn btn-danger btn-sm" @onclick="DELETEINVOICE">Eliminar</button>
-                <button class="btn btn-info btn-sm" @onclick="Cancel">Cancelar</button>
-            </td>
+        private Invoice invoice = new Invoice();
 
-        </tr>
-    </table>
-</EditForm>
-@code {
-    [Parameter]
-    public int id { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            invoice = await InvoiceService.GetInvoiceDetails(id);
+        }
 
-    private Invoice invoice = new Invoice();
+        protected async Task DELETEINVOICE()
+        {
+            await InvoiceService.DeleteInvoice(id);
+            NavigationManager.NavigateTo("/ShowInvoice");
+        }
 
-    protected override async Task OnInitializedAsync()
-    {
-        invoice = await InvoiceService.GetInvoiceDetails(id);
+        protected void Cancel()
+        {
+            NavigationManager.NavigateTo("/ShowInvoice");
+        }
     }
-
-    protected async Task DELETEINVOICE()
-    {
-        await InvoiceService.DeleteInvoice(id);
-        NavigationManager.NavigateTo("/ShowInvoice");
-    }
-
-    protected void Cancel()
-    {
-        NavigationManager.NavigateTo("/ShowInvoice");
-    }
-}
