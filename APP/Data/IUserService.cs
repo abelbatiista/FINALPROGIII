@@ -14,5 +14,6 @@ namespace APP.Data
         Task<bool> UpdateUser(User user);
         Task<bool> DeleteUser(int id);
         Task<bool> SaveUser(User user);
+        Task<User> LogIn(string email);
     }
 }

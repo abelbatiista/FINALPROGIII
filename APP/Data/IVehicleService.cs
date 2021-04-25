@@ -16,5 +16,6 @@ namespace APP.Data
         Task<bool> SaveVehicle(Vehicle vehicle);
         Task<IEnumerable<Vehicle>> GetBenefitsForVehicle();
         Task<IEnumerable<Vehicle>> GetClientDebt();
+        Task<IEnumerable<Vehicle>> GetVehiclesForDate(string startDate, string endDate);
     }
 }

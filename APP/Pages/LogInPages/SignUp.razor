@@ -1,0 +1,84 @@
+﻿@page "/SignUp"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IUserService UserService
+@using System.Security.Claims
+@inject IJSRuntime jsRunTime
+
+<EditForm Model="@user" OnValidSubmit="@SignIn">
+    <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple">Book Stores Register</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Username" placeholder="Username..." />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.Email" placeholder="Email" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="Password" />
+    </div>
+    <br />
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Sign up" />
+        <a href="/" class="col-6">Already an user?</a>
+    </div>
+    <br />
+    <div class="col-12 row" style="text-align:left; font-weight:bold">
+    </div>
+</EditForm>
+
+@code {
+
+    private User user = new User();
+
+
+    protected async Task SignIn()
+    {
+        await UserService.SaveUser(user);
+        NavigationManager.NavigateTo("/");
+    }
+
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+    //private User user;
+    //public string LoginMesssage { get; set; }
+
+    //protected override Task OnInitializedAsync()
+    //{
+    //    user = new User();
+    //    return base.OnInitializedAsync();
+    //}
+
+    //private async Task<bool> RegisterUser()
+    //{
+    //    //assume that user is valid
+    //    user.Source = "APPC";
+    //    var returnedUser = await userService.RegisterUserAsync(user);
+
+    //    if (returnedUser.EmailAddress != null)
+    //    {
+    //        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
+    //        NavigationManager.NavigateTo("/");
+    //    }
+    //    else
+    //    {
+    //        LoginMesssage = "Invalid username or password";
+    //    }
+
+    //    return await Task.FromResult(true);
+    //}
+
+}

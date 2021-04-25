@@ -1,0 +1,126 @@
+﻿@page "/VehicleDate"
+@inject IVehicleService VehicleService
+
+<h3>Vehículos por fecha</h3>
+@message
+
+<style>
+    th, td {
+        text-align: center;
+    }
+
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+
+    .tamano {
+        font-size: 30px;
+    }
+</style>
+<div>
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Fecha Inicio</label>
+                <input type="date" class="form-control" @bind-value="@startDate" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-outline">
+                <label class="form-label">Fecha Fin</label>
+                <input type="date" class="form-control" @bind-value="@endDate" />
+            </div>
+        </div>
+    </div>
+    <div colspan="2" style="text-align:center;">
+        <button class="btn btn-primary mb-4" @onclick="Show">Buscar</button>
+    </div>
+</div>
+
+@if (dates == null)
+{
+    <p><em>No hay vehículos...</em></p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Foto</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Año</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var date in dates)
+            {
+                <tr>
+                    <td><img src="@date.Image" width="150" height="100"></td>
+                    <td>@date.Brand</td>
+                    <td>@date.Model</td>
+                    <td>@date.Color</td>
+                    <td>@date.Year</td>
+                    <td>@date.Kind</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+@code {
+    public IEnumerable<Vehicle> dates { get; set; }
+    public string message { get; set; }
+    public DateTime startDate { get; set; }
+    public DateTime endDate { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    protected async Task Show()
+    {
+        string start = startDate.ToString("yyyyMMdd");
+        string end = endDate.ToString("yyyyMMdd");
+        try
+        {
+            dates = await VehicleService.GetVehiclesForDate(start, end);
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+}
+

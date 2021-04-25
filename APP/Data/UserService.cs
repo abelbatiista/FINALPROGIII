@@ -37,6 +37,13 @@ namespace APP.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<User> LogIn(string email)
+        {
+            return await _context.Users
+                .FromSqlRaw($"SELECT * FROM Users U WHERE U.Email = '{email}'")
+                .SingleAsync();
+        }
+
         public async Task<bool> SaveUser(User user)
         {
             if (user.UserId > 0)

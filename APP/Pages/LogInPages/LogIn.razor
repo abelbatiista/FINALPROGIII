@@ -1,0 +1,146 @@
+﻿@page "/"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IUserService UserService
+@using System.Security.Claims
+@inject IJSRuntime jsRunTime
+@Message
+
+<style>
+        h1 {
+            text-align: center;
+        }
+
+        b {
+            font-size: 20px;
+        }
+
+        h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+        }
+
+        .btn-circle {
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .btn-circle-sm {
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 0.9rem;
+        }
+
+        .btn-circle-xl {
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            font-size: 1.3rem;
+            position: fixed;
+            bottom: 40px;
+            right: 15px;
+        }
+
+        .btn-circle i {
+            position: relative;
+            top: -1px;
+        }
+
+        .tamano {
+            font-size: 30px;
+        }
+    </style>
+
+<EditForm Model="@user" OnValidSubmit="@SignIn">
+    <div>
+            <br /><br /><br /><br /><br />
+        </div>
+        <div>
+            <h3 style="font-weight:bold; color:white">Log In to ADS RenTCAR</h3>
+        </div>
+        <div>
+            <br />
+        </div>
+        <div class="col-12 row">
+            <input class="form-control col-12" @bind="user.Email" placeholder="Email" />
+        </div>
+        <br />
+        <div class="col-12 row">
+            <input type="password" class="form-control col-12" @bind="user.Password" placeholder="Password" />
+        </div>
+        <br />
+        <br />
+        <div class="col-12 row">
+            <span class="col-12"></span>
+            <input type="submit" class="form-control col-6 btn btn-primary" style="color:red"value="Log In" />
+            <br />
+            <a href="/" class="col-6">Already an user?</a>
+        </div>
+        <br />
+        <div class="col-12 row" style="text-align:left; font-weight:bold">
+        </div>
+</EditForm>
+
+@code{
+    private User user = new User();
+    public string LogInMessage { get; set; }
+    public string Message { get; set; }
+    //ClaimsPrincipal claimsPrincipal;
+
+    //[CascadingParameter]
+    //private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        //claimsPrincipal = (await authenticationStateTask).User;
+
+        //if (claimsPrincipal.Identity.IsAuthenticated)
+        //{
+        //    NavigationManager.NavigateTo("/Index");
+        //}
+        //{
+        //    user.Email = "";
+        //    user.Password = "";
+        //}
+    }
+
+    private async Task SignIn()
+    {
+        try
+        {
+            var returnedUser = await UserService.LogIn(user.Email);
+
+            if (returnedUser.Password == user.Password)
+            {
+                NavigationManager.NavigateTo("/Index");
+            }
+            else
+            {
+                LogInMessage = "Invalid Username or Password";
+            }
+        }
+        catch (Exception e)
+        {
+
+            Message = e.Message;
+        }
+        //var returnedUser = await UserService.GetUserDetails(user.UserId);
+
+        //if (returnedUser.Email != null)
+        //{
+        //    //await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
+        //    NavigationManager.NavigateTo("/Index");
+        //}
+        //else
+        //{
+        //    LogInMessage = "Invalid Username or Password";
+        //}
+
+        //return await Task.FromResult(true);
+    }
+}

@@ -39,23 +39,20 @@ namespace APP.Data
         public async Task<IEnumerable<Vehicle>> GetClientDebt()
         {
             return await _context.Vehicles
-                .FromSqlRaw("SELECT C.Cedula AS 'Brand', C.Name AS 'Model', C.LastName AS 'Color', " +
-                "V.Enrollment, V.Image, V.Latitude, V.Length, V.ChargeCapacity, V.SecureNumber, V.VehicleId, V.Year, V.PassengersNumber, V.Kind, " +
-                "(SELECT(SUM(I.Amount) - (SUM(I.AmountPaid))) FROM Invoices I WHERE I.BookingId = B.BookingId) AS 'Price' " +
-                "FROM Vehicles V " +
-                "INNER JOIN Bookings B " +
-                "ON V.VehicleId = B.VehicleId " +
-                "INNER JOIN Clients C " +
-                "ON c.ClientId = b.ClientId " +
-                "INNER JOIN Invoices I " +
-                "ON I.BookingId = B.BookingId " +
-                "WHERE I.Amount != I.AmountPaid ")
+                .FromSqlRaw("SELECT C.Cedula AS 'Brand', C.Name AS 'Model', C.LastName AS 'Color', V.Enrollment, V.Image, V.Latitude, V.Length, V.ChargeCapacity, V.SecureNumber, V.VehicleId, V.Year, V.PassengersNumber, V.Kind, (SELECT(SUM(I.Amount) - (SUM(I.AmountPaid))) FROM Invoices I WHERE I.BookingId = B.BookingId) AS 'Price' FROM Vehicles V  INNER JOIN Bookings B ON V.VehicleId = B.VehicleId INNER JOIN Clients C ON c.ClientId = b.ClientId INNER JOIN Invoices I ON I.BookingId = B.BookingId WHERE I.Amount != I.AmountPaid ")
                 .ToListAsync();
         }
 
         public async Task<Vehicle> GetVehicleDetails(int id)
         {
             return await _context.Vehicles.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehiclesForDate(string startDate, string endDate)
+        {
+            return await _context.Vehicles
+                .FromSqlRaw($"SELECT V.* FROM Vehicles V INNER JOIN Bookings B ON V.VehicleId = B.VehicleId WHERE ('{startDate}' NOT BETWEEN B.StartDate AND B.EndDate) AND ('{endDate}' NOT BETWEEN B.StartDate AND B.EndDate)")
+                .ToListAsync();
         }
 
         public async Task<bool> InsertVehicle(Vehicle vehicle)

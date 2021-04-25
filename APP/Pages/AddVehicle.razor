@@ -126,11 +126,11 @@
     protected async Task ADDVEHICLE()
     {
         await VehicleService.SaveVehicle(vehicle);
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/Index");
     }
 
     protected void Cancel()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/Index");
     }
 }

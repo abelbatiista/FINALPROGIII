@@ -1,0 +1,96 @@
+﻿@page "/ClientsDebts"
+@inject IVehicleService VehicleService
+
+<h3>Clientes que deben</h3>
+@message
+
+<style>
+    th, td {
+        text-align: center;
+    }
+
+    .btn-circle {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .btn-circle-sm {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .btn-circle-xl {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 1.3rem;
+        position: fixed;
+        bottom: 40px;
+        right: 15px;
+    }
+
+    .btn-circle i {
+        position: relative;
+        top: -1px;
+    }
+
+    .tamano {
+        font-size: 30px;
+    }
+</style>
+
+@if (debts == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var debt in debts)
+            {
+                <tr>
+                    <td>@debt.Brand</td>
+                    <td>@debt.Model</td>
+                    <td>@debt.Color</td>
+                    <td>$@debt.Price</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+
+@code {
+    public IEnumerable<Vehicle> debts { get; set; }
+    public string message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            debts = await VehicleService.GetClientDebt();
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+
+}
+
+
