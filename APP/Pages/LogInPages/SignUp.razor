@@ -5,36 +5,47 @@
 @using System.Security.Claims
 @inject IJSRuntime jsRunTime
 
+<style>
+    label {
+        font-weight: bold;
+        text-align: left;
+    }
+    .arr {
+        font-family: 'Zen Dots', cursive;
+        color: red;
+        font-size: 45px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+
 <EditForm Model="@user" OnValidSubmit="@SignIn">
     <div>
-        <br /><br /><br /><br /><br />
+        <h3 class="arr mb-3">ADS Rent-Car</h3>
     </div>
-    <div>
-        <h3 style="font-weight:bold; color:purple">Book Stores Register</h3>
-    </div>
-    <div>
-        <br />
-    </div>
-    <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Username" placeholder="Username..." />
-    </div>
-    <div class="col-12 row">
-        <input class="form-control col-12" @bind="user.Email" placeholder="Email" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="Password" />
-    </div>
-    <br />
-    <br />
-    <div class="col-12 row">
-        <span class="col-12"></span>
-        <input type="submit" class="form-control col-6 btn btn-primary" value="Sign up" />
-        <a href="/" class="col-6">Already an user?</a>
-    </div>
-    <br />
-    <div class="col-12 row" style="text-align:left; font-weight:bold">
-    </div>
+
+    <form>
+        <div class="">
+            <div class="form-group">
+                <label>Nombre De Usuario</label>
+                <input type="text" class="form-control ml-4" @bind-value="@user.Username" placeholder="Username"/>
+            </div>
+        </div>
+        <div class="">
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" class="form-control ml-4" @bind-value="@user.Email" placeholder="Someone@example.com"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" class="form-control ml-4" @bind-value="@user.Password" placeholder="Password"/>
+        </div>
+        <div colspan="2">
+            <button class="btn btn-success mb-4 mr-3 mt-2" type="submit">Registrarse</button>
+            <a href="/" class="btn btn-primary mb-4 mt-2">Ir A Login</a>
+        </div>
+    </form>
 </EditForm>
 
 @code {
@@ -53,32 +64,6 @@
         NavigationManager.NavigateTo("/");
     }
 
-    //private User user;
-    //public string LoginMesssage { get; set; }
-
-    //protected override Task OnInitializedAsync()
-    //{
-    //    user = new User();
-    //    return base.OnInitializedAsync();
-    //}
-
-    //private async Task<bool> RegisterUser()
-    //{
-    //    //assume that user is valid
-    //    user.Source = "APPC";
-    //    var returnedUser = await userService.RegisterUserAsync(user);
-
-    //    if (returnedUser.EmailAddress != null)
-    //    {
-    //        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
-    //        NavigationManager.NavigateTo("/");
-    //    }
-    //    else
-    //    {
-    //        LoginMesssage = "Invalid username or password";
-    //    }
-
-    //    return await Task.FromResult(true);
-    //}
+    
 
 }

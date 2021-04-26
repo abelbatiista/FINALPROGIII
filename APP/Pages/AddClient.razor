@@ -55,12 +55,13 @@
     <div class="row mb-4">
         <div class="col">
             <div class="form-outline">
-                <label class="form-label">Imagen</label>
-                <input type="text" class="form-control" @bind-value="@client.CedulaImage" />
+                <label class="form-label">Foto</label>
+                <input type="text" class="form-control" @bind-value="@client.CedulaImage" readonly />
             </div>
         </div>
     </div>
     <div colspan="2" style="text-align:center;">
+        <button class="btn btn-success mb-4" @onclick="ValidarCedula">Validar Cédula</button>
         <button class="btn btn-primary mb-4" @onclick="ADDCLIENT">Guardar</button>
         <button class="btn btn-danger mb-4" @onclick="Cancel">Cancelar</button>
     </div>
