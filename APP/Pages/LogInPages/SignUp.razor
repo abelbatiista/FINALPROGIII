@@ -2,14 +2,15 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject IUserService UserService
-@using System.Security.Claims
 @inject IJSRuntime jsRunTime
+@Message
 
 <style>
     label {
         font-weight: bold;
         text-align: left;
     }
+
     .arr {
         font-family: 'Zen Dots', cursive;
         color: red;
@@ -19,51 +20,53 @@
     }
 </style>
 
-<EditForm Model="@user" OnValidSubmit="@SignIn">
+<EditForm Model="@user" OnValidSubmit="@SignUpNow">
     <div>
         <h3 class="arr mb-3">ADS Rent-Car</h3>
     </div>
-
-    <form>
-        <div class="">
-            <div class="form-group">
-                <label>Nombre De Usuario</label>
-                <input type="text" class="form-control ml-4" @bind-value="@user.Username" placeholder="Username"/>
-            </div>
-        </div>
-        <div class="">
-            <div class="form-group">
-                <label>Correo Electrónico</label>
-                <input type="email" class="form-control ml-4" @bind-value="@user.Email" placeholder="Someone@example.com"/>
-            </div>
-        </div>
+    <div class="">
         <div class="form-group">
-            <label>Contraseña</label>
-            <input type="password" class="form-control ml-4" @bind-value="@user.Password" placeholder="Password"/>
+            <label>Nombre De Usuario</label>
+            <input type="text" class="form-control ml-4" @bind-value="@user.Username" placeholder="Username" />
         </div>
-        <div colspan="2">
-            <button class="btn btn-success mb-4 mr-3 mt-2" type="submit">Registrarse</button>
-            <a href="/" class="btn btn-primary mb-4 mt-2">Ir A Login</a>
+    </div>
+    <div class="">
+        <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" class="form-control ml-4" @bind-value="@user.Email" placeholder="Someone@example.com" />
         </div>
-    </form>
+    </div>
+    <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" class="form-control ml-4" @bind-value="@user.Password" placeholder="Password" />
+    </div>
+    <div colspan="2">
+        <button class="btn btn-success mb-4 mr-3 mt-2" type="submit">Registrarse</button>
+        <a href="/" class="btn btn-primary mb-4 mt-2">Ir A Login</a>
+    </div>
 </EditForm>
 
 @code {
 
     private User user = new User();
+    public string LogInMessage { get; set; }
+    public string Message { get; set; }
 
-
-    protected async Task SignIn()
+    protected async Task SignUpNow()
     {
-        await UserService.SaveUser(user);
-        NavigationManager.NavigateTo("/");
+        try
+        {
+            await UserService.InsertUser(user);
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+
+            Message = e.Message;
+        }
+
     }
 
-    protected void Cancel()
-    {
-        NavigationManager.NavigateTo("/");
-    }
 
-    
 
 }
